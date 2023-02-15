@@ -14,9 +14,9 @@ var configuration = GetConfiguration();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
-    {
-        options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-    })
+{
+    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+})
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
 builder.Services.AddSwaggerGen(options =>
@@ -41,8 +41,9 @@ builder.Services.AddSwaggerGen(options =>
                 Scopes = new Dictionary<string, string>()
                 {
                     { "mvc", "website" },
-                    { "catalog.catalogbff", "catalog.catalogbff" },
-                    { "catalog.catalogitem", "catalog.catalogitem" }
+                    { "catalog.catalogitem", "catalog.catalogitem" },
+                    { "catalog.catalogbrand", "catalog.catalogbrand" },
+                    { "catalog.catalogtype", "catalog.catalogtype" }
                 }
             }
         }
@@ -61,6 +62,10 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddTransient<ICatalogItemRepository, CatalogItemRepository>();
 builder.Services.AddTransient<ICatalogService, CatalogService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
+builder.Services.AddTransient<ICatalogBrandRepository, CatalogBrandRepository>();
+builder.Services.AddTransient<ICatalogBrandService, CatalogBrandService>();
+builder.Services.AddTransient<ICatalogTypeRepository, CatalogTypeRepository>();
+builder.Services.AddTransient<ICatalogTypeService, CatalogTypeService>();
 
 builder.Services.AddDbContextFactory<ApplicationDbContext>(opts => opts.UseNpgsql(configuration["ConnectionString"]));
 builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
